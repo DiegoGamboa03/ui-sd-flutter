@@ -11,8 +11,6 @@ class _RoomState extends State<Room> {
   double xPosition = 0;
   double yPosition = 0;
 
-  Color color = Colors.black;
-
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -26,7 +24,7 @@ class _RoomState extends State<Room> {
               });
             },
             child: Material(
-                color: color,
+                color: Colors.grey,
                 child: InkWell(
                   onTap: () {},
                   child: Container(
