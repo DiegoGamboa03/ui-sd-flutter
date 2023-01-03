@@ -47,7 +47,7 @@ class _BuildingState extends State<Building> {
     return Scaffold(
         floatingActionButton: FloatingActionButton(onPressed: () {
           setState(() {
-            listMovableItems[i].add(const Room());
+            listMovableItems[i].add(Room(xPosition: 0, yPosition: 0));
             print(listMovableItems);
           });
         }), //Aqui va a ir la imagen

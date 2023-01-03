@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 
 class Room extends StatefulWidget {
-  const Room({super.key});
+  Room({
+    super.key,
+    required this.xPosition,
+    required this.yPosition,
+  });
+
+  late double xPosition;
+  late double yPosition;
 
   @override
   State<Room> createState() => _RoomState();
 }
 
 class _RoomState extends State<Room> {
-  double xPosition = 0;
-  double yPosition = 0;
-
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: yPosition,
-        left: xPosition,
+        top: widget.yPosition,
+        left: widget.xPosition,
         child: GestureDetector(
             onPanUpdate: (tapInfo) {
               setState(() {
-                xPosition += tapInfo.delta.dx;
-                yPosition += tapInfo.delta.dy;
+                widget.xPosition += tapInfo.delta.dx;
+                widget.yPosition += tapInfo.delta.dy;
               });
             },
             child: Material(
