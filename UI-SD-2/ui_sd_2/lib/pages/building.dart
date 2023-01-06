@@ -15,6 +15,10 @@ class Building extends StatefulWidget {
 
 class _BuildingState extends State<Building> {
   int i = 0;
+
+  final String newImg =
+      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80';
+
   final List<String> imgList = [
     //Lista de imagenes sacadas de internet, no tienen nada que ver, simplemente de prueba
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -65,7 +69,11 @@ class _BuildingState extends State<Building> {
           FloatingActionButton.small(
             heroTag: null,
             child: const Icon(Icons.layers_outlined),
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                imgList.add(newImg);
+              });
+            },
           )
         ]),
         body: Stack(
