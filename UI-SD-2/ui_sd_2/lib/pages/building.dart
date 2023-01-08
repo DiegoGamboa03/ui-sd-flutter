@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:ui_sd_2/classes/device.dart';
+import 'package:ui_sd_2/classes/room_data.dart';
 import 'package:ui_sd_2/components/room.dart';
 import 'package:ui_sd_2/components/room_info.dart';
 
@@ -16,6 +18,7 @@ class Building extends StatefulWidget {
 class _BuildingState extends State<Building> {
   int i = 0;
 
+  //Imagen que se agrega cuando se agrega un nuevo piso
   final String newImg =
       'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80';
 
@@ -28,6 +31,14 @@ class _BuildingState extends State<Building> {
     'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
+
+  List<Device> devices = [
+    Device(id: '1', status: 'on', type: 'Bulb'),
+    Device(id: '2', status: 'close', type: 'Door'),
+    Device(id: '3', status: 'on', type: 'Bulb')
+  ];
+
+  var room_data;
 
   @override
   void initState() {
@@ -44,7 +55,8 @@ class _BuildingState extends State<Building> {
       movableItems3,
       movableItems4,
       movableItems5
-    ]; //Al
+    ];
+    room_data = RoomData(devices: devices);
     super.initState();
   }
 
@@ -57,17 +69,19 @@ class _BuildingState extends State<Building> {
         floatingActionButton:
             ExpandableFab(child: const Icon(Icons.add), children: [
           FloatingActionButton.small(
-            heroTag: null,
             child: const Icon(Icons.door_front_door_outlined),
             onPressed: () {
               setState(() {
                 listMovableItems[i].add(Room(
-                    xPosition: 0, yPosition: 0, roomInfo: const RoomInfo()));
+                  xPosition: 0,
+                  yPosition: 0,
+                  roomInfo: const RoomInfo(),
+                  roomData: room_data,
+                ));
               });
             },
           ),
           FloatingActionButton.small(
-            heroTag: null,
             child: const Icon(Icons.layers_outlined),
             onPressed: () {
               setState(() {

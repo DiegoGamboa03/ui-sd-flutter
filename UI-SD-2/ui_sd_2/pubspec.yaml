@@ -39,6 +39,8 @@ dependencies:
   draggable_widget: ^2.0.0
   carousel_slider: ^4.2.1
   flutter_expandable_fab: ^1.6.1
+  font_awesome_flutter: ^10.3.0
+  socket_io_client: ^2.0.0
 
 dev_dependencies:
   flutter_test:

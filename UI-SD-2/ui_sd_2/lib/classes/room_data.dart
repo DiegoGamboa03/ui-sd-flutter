@@ -1,6 +1,7 @@
-/*class RoomData {
-  List x;
-  int y;
+import 'package:ui_sd_2/classes/device.dart';
 
-  RoomData({ required int x, int y});
-}*/
+class RoomData {
+  List<Device> devices;
+
+  RoomData({required this.devices});
+}
