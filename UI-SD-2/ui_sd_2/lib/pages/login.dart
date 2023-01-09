@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 import 'package:ui_sd_2/classes/jsons/json_connack.dart';
 import 'package:ui_sd_2/helpers/socket_io_service.dart';
+import 'package:ui_sd_2/pages/building.dart';
 
 String email = '';
 String password = '';
@@ -64,6 +65,10 @@ class Login extends StatelessWidget {
                     socket.on('CONNACK', (data) async {
                       JsonConnack jsonConnack = JsonConnack.fromJson(data);
                     });
+                    /*Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Building()),
+                    );*/
                   },
                   child: const Text('Boton'),
                 ),
