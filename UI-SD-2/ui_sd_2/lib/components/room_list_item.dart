@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 import '../classes/device.dart';
-import '../classes/room_data.dart';
 
 class RoomListItem extends StatelessWidget {
   const RoomListItem({super.key, required this.device});

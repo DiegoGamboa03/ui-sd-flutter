@@ -1,16 +1,16 @@
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:ui_sd_2/classes/floor.dart';
+import 'package:ui_sd_2/classes/jsons/json_connack.dart';
 import 'package:ui_sd_2/classes/room_data.dart';
 import 'package:ui_sd_2/components/room.dart';
 import 'package:ui_sd_2/components/room_info.dart';
 
 class Building extends StatefulWidget {
-  const Building({super.key});
+  final JsonConnack jsonConnack;
+
+  const Building({super.key, required this.jsonConnack});
 
   @override
   State<Building> createState() => _BuildingState();
