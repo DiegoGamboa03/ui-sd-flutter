@@ -49,6 +49,20 @@ class _BuildingState extends State<Building> {
         }
       }
     });
+
+    socket.on('UPDATEFLOOR', ((data) async {
+      String floorID = data['floorID'];
+      bool contains = false;
+      for (int i = 0; i < floors.length; i++) {
+        if (floors[i].id == floorID) {
+          contains = true;
+        }
+      }
+      if (!contains) {
+        // Si ya existe un floor con ese id, no lo mete
+        floors.add(Floor(id: floorID, img: 'a', movableItems: []));
+      }
+    }));
     return Scaffold(
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton:
@@ -99,6 +113,30 @@ class _BuildingState extends State<Building> {
           heroTag: "new floor",
           child: const Icon(Icons.layers_outlined),
           onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return Dialog(
+                    child: Center(
+                        child: Column(
+                      children: [
+                        TextField(
+                          controller: _controllerFloorID,
+                        ),
+                        TextButton(
+                            onPressed: (() {
+                              newFloorSocket(_controllerFloorID.text);
+                              socket.on('REG-FLOORACK', (data) async {
+                                if (data['returnCode'] == 0) {
+                                } else {}
+                              });
+                            }),
+                            child: const Text('Siguiente'))
+                      ],
+                    )),
+                  );
+                });
+            /*
             setState(() {
               floors.add(Floor(
                 id: 'Piso x',
@@ -106,7 +144,7 @@ class _BuildingState extends State<Building> {
                     'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
                 movableItems: [],
               ));
-            });
+            });*/
           },
         )
       ]),
