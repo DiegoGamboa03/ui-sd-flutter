@@ -1,4 +1,3 @@
-import 'package:ui_sd_2/classes/jsons/json_device.dart';
 import 'json_floor.dart';
 
 class JsonConnack {

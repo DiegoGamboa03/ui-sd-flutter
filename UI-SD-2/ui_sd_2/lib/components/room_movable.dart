@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ui_sd_2/classes/room_data.dart';
 import 'package:ui_sd_2/components/room_info.dart';
+import 'package:ui_sd_2/pages/room_details.dart';
 
 // ignore: must_be_immutable
-class Room extends StatefulWidget {
-  Room(
+class RoomMovable extends StatefulWidget {
+  RoomMovable(
       {super.key,
       required this.xPosition,
       required this.yPosition,
@@ -16,14 +17,13 @@ class Room extends StatefulWidget {
   late RoomInfo roomInfo;
   RoomData roomData;
   @override
-  State<Room> createState() => _RoomState();
+  State<RoomMovable> createState() => _RoomState();
 }
 
-class _RoomState extends State<Room> {
+class _RoomState extends State<RoomMovable> {
   @override
   Widget build(BuildContext context) {
     double screenheight = MediaQuery.of(context).size.height;
-    double screenwidth = MediaQuery.of(context).size.width;
 
     return Positioned(
         top: widget.yPosition,
@@ -38,7 +38,14 @@ class _RoomState extends State<Room> {
             child: Material(
                 color: Colors.grey,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              RoomDetails(roomData: widget.roomData)),
+                    );
+                  },
                   child: Container(
                     color: Colors.transparent,
                     height: screenheight * 0.18,

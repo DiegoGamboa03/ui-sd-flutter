@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:ui_sd_2/classes/device.dart';
 
 class JsonRoom {

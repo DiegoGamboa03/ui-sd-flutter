@@ -18,3 +18,18 @@ void connectBroker() {
   var jsonCONNECT = {"user": "xd", "password": "5678"};
   socket.emit('CONNECT', jsonCONNECT);
 }
+
+void newFloorSocket(String floorID) {
+  var jsonREGFLOOR = {"floorID": floorID};
+  socket.emit('REG-FLOOR', jsonREGFLOOR);
+}
+
+void newRoomSocket(String roomID, String floorID, double posX, double posY) {
+  var jsonREGROOM = {
+    "roomID": roomID,
+    "floorID": floorID,
+    "posX": posX,
+    "posY": posY
+  };
+  socket.emit('REG-ROOM', jsonREGROOM);
+}
