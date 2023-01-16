@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:ui_sd_2/components/on_off_button.dart';
 import '../classes/device.dart';
-import 'ac_buttons.dart';
+import '../helpers/socket_io_service.dart';
 
 class RoomListItem extends StatefulWidget {
-  const RoomListItem({super.key, required this.device});
-
+  const RoomListItem(
+      {super.key,
+      required this.device,
+      required this.floorID,
+      required this.roomID});
+  final String floorID;
+  final String roomID;
   final Device device;
 
   @override
@@ -14,7 +18,8 @@ class RoomListItem extends StatefulWidget {
 }
 
 class _RoomListItemState extends State<RoomListItem> {
-  FaIcon icon = FaIcon(FontAwesomeIcons.doorOpen);
+  FaIcon icon = const FaIcon(FontAwesomeIcons.doorOpen);
+  late String message;
   @override
   void initState() {
     if (widget.device.type == 'bulb') {
@@ -38,6 +43,7 @@ class _RoomListItemState extends State<RoomListItem> {
         icon = const FaIcon(FontAwesomeIcons.x);
       }
     }
+    message = widget.device.status;
     super.initState();
   }
 
@@ -67,8 +73,45 @@ class _RoomListItemState extends State<RoomListItem> {
                     child: icon,
                   ),
                   widget.device.type == 'ac'
-                      ? const ButtonAC()
-                      : const ButtonOnOff(),
+                      ? Column(
+                          //Si es ac
+                          children: [
+                            IconButton(
+                              icon: const Icon(
+                                Icons.arrow_upward,
+                              ),
+                              onPressed: () {},
+                            ),
+                            RawMaterialButton(
+                              onPressed: () {},
+                              elevation: 2.0,
+                              fillColor: Colors.white,
+                              padding: const EdgeInsets.all(15.0),
+                              shape: const CircleBorder(),
+                              child: const FaIcon(FontAwesomeIcons.toggleOn),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.arrow_downward),
+                              onPressed: () {},
+                            ),
+                          ],
+                        )
+                      : RawMaterialButton(
+                          //Si no es ac
+                          onPressed: () {
+                            if (message == 'on') {
+                              message = 'off';
+                            } else {
+                              message = 'on';
+                            }
+                            //publish(widget.device.id, topic, message);
+                          },
+                          elevation: 2.0,
+                          fillColor: Colors.white,
+                          padding: const EdgeInsets.all(15.0),
+                          shape: const CircleBorder(),
+                          child: const FaIcon(FontAwesomeIcons.toggleOn),
+                        ),
                 ],
               )),
         ),

@@ -33,3 +33,21 @@ void newRoomSocket(String roomID, String floorID, double posX, double posY) {
   };
   socket.emit('REG-ROOM', jsonREGROOM);
 }
+
+void newDeviceSocket(String deviceID, String type, String status, String? value,
+    String roomID, String topic) {
+  var jsonREGDEVICE = {
+    "deviceID": deviceID,
+    "type": type,
+    "status": status,
+    "value": value,
+    "room": roomID,
+    "switchTopic": topic
+  };
+  socket.emit('REG-DEVICE', jsonREGDEVICE);
+}
+
+void publish(String deviceID, String topic, String message) {
+  var jsonPUBLILSH = {"deviceID": deviceID, "topic": topic, "message": message};
+  socket.emit('PUBLISH', jsonPUBLILSH);
+}

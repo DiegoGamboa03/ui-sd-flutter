@@ -40,12 +40,14 @@ class _BuildingState extends State<Building> {
     socket.on('UPDATEROOM', (data) async {
       for (var floor in floors) {
         var floorID = data['floorID'];
+        var roomID = data['roomID'];
         if (floor.id == floorID) {
           floor.movableItems.add(RoomMovable(
               xPosition: 0,
               yPosition: 0,
               roomInfo: const RoomInfo(),
-              roomData: RoomData(devices: [])));
+              roomData:
+                  RoomData(floorID: floorID, roomID: roomID, devices: [])));
         }
       }
     });

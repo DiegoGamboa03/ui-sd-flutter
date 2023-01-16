@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:ui_sd_2/classes/device.dart';
 import 'package:ui_sd_2/classes/jsons/json_connack.dart';
@@ -22,7 +24,10 @@ List<Floor> initFloors(JsonConnack jsonConnack) {
         devices.add(jsonConnack.jsonFloors[i].rooms[j].devices[k]);
       }
       movableItems.add(RoomMovable(
-        roomData: RoomData(devices: devices),
+        roomData: RoomData(
+            floorID: jsonConnack.jsonFloors[i].floorID,
+            roomID: jsonConnack.jsonFloors[i].rooms[j].roomName,
+            devices: devices),
         roomInfo: const RoomInfo(),
         xPosition: 0,
         yPosition: 0,
