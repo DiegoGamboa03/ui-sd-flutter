@@ -28,8 +28,14 @@ class _RoomListItemState extends State<RoomListItem> {
   late TextEditingController _controllerMessage;
   @override
   void initState() {
+    _controllerFact = TextEditingController();
+    _controllerMessage = TextEditingController();
+    _controllerOperator = TextEditingController();
+    _controllerRuleID = TextEditingController();
+    _controllerTopic = TextEditingController();
+    _controllerValue = TextEditingController();
     if (widget.device.type == 'bulb') {
-      if (widget.device.status == 'state:on') {
+      if (widget.device.status == 'on') {
         icon = const FaIcon(FontAwesomeIcons.lightbulb);
       } else {
         icon = const FaIcon(FontAwesomeIcons.solidLightbulb);
@@ -37,13 +43,13 @@ class _RoomListItemState extends State<RoomListItem> {
     } else if (widget.device.type == 'sensor') {
       icon = const FaIcon(FontAwesomeIcons.circle);
     } else if (widget.device.type == 'door') {
-      if (widget.device.status == 'state:on') {
+      if (widget.device.status == 'on') {
         icon = const FaIcon(FontAwesomeIcons.doorOpen);
       } else {
         icon = const FaIcon(FontAwesomeIcons.doorClosed);
       }
     } else if (widget.device.type == 'ac') {
-      if (widget.device.status == 'state:on') {
+      if (widget.device.status == 'on') {
         icon = const FaIcon(FontAwesomeIcons.fan);
       } else {
         icon = const FaIcon(FontAwesomeIcons.x);
@@ -69,7 +75,7 @@ class _RoomListItemState extends State<RoomListItem> {
       }
       setState(() {
         if (widget.device.type == 'bulb') {
-          if (widget.device.status == 'state:on') {
+          if (widget.device.status == 'on') {
             icon = const FaIcon(FontAwesomeIcons.lightbulb);
           } else {
             icon = const FaIcon(FontAwesomeIcons.solidLightbulb);
@@ -77,13 +83,13 @@ class _RoomListItemState extends State<RoomListItem> {
         } else if (widget.device.type == 'sensor') {
           icon = const FaIcon(FontAwesomeIcons.circle);
         } else if (widget.device.type == 'door') {
-          if (widget.device.status == 'state:on') {
+          if (widget.device.status == 'on') {
             icon = const FaIcon(FontAwesomeIcons.doorOpen);
           } else {
             icon = const FaIcon(FontAwesomeIcons.doorClosed);
           }
         } else if (widget.device.type == 'ac') {
-          if (widget.device.status == 'state:on') {
+          if (widget.device.status == 'on') {
             icon = const FaIcon(FontAwesomeIcons.fan);
           } else {
             icon = const FaIcon(FontAwesomeIcons.x);
@@ -110,22 +116,34 @@ class _RoomListItemState extends State<RoomListItem> {
                         child: Column(
                       children: [
                         TextField(
+                          decoration: const InputDecoration.collapsed(
+                              hintText: 'Topic'),
                           controller: _controllerTopic,
                         ),
                         TextField(
                           controller: _controllerRuleID,
+                          decoration: const InputDecoration.collapsed(
+                              hintText: 'Rule ID'),
                         ),
                         TextField(
                           controller: _controllerFact,
+                          decoration:
+                              const InputDecoration.collapsed(hintText: 'Fact'),
                         ),
                         TextField(
                           controller: _controllerOperator,
+                          decoration: const InputDecoration.collapsed(
+                              hintText: 'Operator'),
                         ),
                         TextField(
                           controller: _controllerValue,
+                          decoration: const InputDecoration.collapsed(
+                              hintText: 'Value'),
                         ),
                         TextField(
                           controller: _controllerMessage,
+                          decoration: const InputDecoration.collapsed(
+                              hintText: 'message'),
                         ),
                         TextButton(
                             onPressed: (() {
@@ -183,11 +201,12 @@ class _RoomListItemState extends State<RoomListItem> {
                           //Si no es ac
                           onPressed: () {
                             if (message == 'on') {
-                              message = 'state:off';
+                              message = 'off';
                             } else {
-                              message = 'state:on';
+                              message = 'on';
                             }
-                            publish('APP', widget.device.switchTopic, message);
+                            publish('APP', widget.device.switchTopic,
+                                'state:$message');
                           },
                           elevation: 2.0,
                           fillColor: Colors.white,

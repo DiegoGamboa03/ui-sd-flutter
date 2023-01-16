@@ -4,7 +4,7 @@ import 'package:ui_sd_2/helpers/socket_io_service.dart';
 
 import 'building.dart';
 
-String email = '';
+String user = '';
 String password = '';
 
 ///Login de la App
@@ -31,20 +31,18 @@ class Login extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
-                  obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'email',
                   ),
                   onChanged: (value) {
-                    email = value;
+                    user = value;
                   },
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextField(
-                  obscureText: true,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'password',
@@ -58,7 +56,7 @@ class Login extends StatelessWidget {
                 padding: const EdgeInsets.all(10.0),
                 child: TextButton(
                   onPressed: () {
-                    connectSocket();
+                    connectSocket(user, password);
                     socket.on('CONNACK', (data) async {
                       JsonConnack jsonConnack = JsonConnack.fromJson(data);
                       Navigator.push(

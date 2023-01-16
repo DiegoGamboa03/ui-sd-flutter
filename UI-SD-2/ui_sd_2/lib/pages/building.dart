@@ -45,7 +45,9 @@ class _BuildingState extends State<Building> {
           floor.movableItems.add(RoomMovable(
               xPosition: 0,
               yPosition: 0,
-              roomInfo: const RoomInfo(),
+              roomInfo: RoomInfo(
+                roomID: roomID.toString(),
+              ),
               roomData:
                   RoomData(floorID: floorID, roomID: roomID, devices: [])));
         }

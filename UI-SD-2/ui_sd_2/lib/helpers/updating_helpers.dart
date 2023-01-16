@@ -28,7 +28,7 @@ List<Floor> initFloors(JsonConnack jsonConnack) {
             floorID: jsonConnack.jsonFloors[i].floorID,
             roomID: jsonConnack.jsonFloors[i].rooms[j].roomName,
             devices: devices),
-        roomInfo: const RoomInfo(),
+        roomInfo: RoomInfo(roomID: jsonConnack.jsonFloors[i].rooms[j].roomName),
         xPosition: 0,
         yPosition: 0,
       ));

@@ -5,17 +5,18 @@ IO.Socket socket = IO.io('http://192.168.1.102:4000', <String, dynamic>{
   'autoConnect': false,
 });
 
-void connectSocket() {
+void connectSocket(String user, String password) {
   socket.onConnect((data) {
     print('connect');
   });
 
   socket.connect();
-  connectBroker();
+  connectBroker(user, password);
 }
 
-void connectBroker() {
-  var jsonCONNECT = {"user": "xd", "password": "5678"};
+void connectBroker(String user, String password) {
+  //var jsonCONNECT = {"user": "xd", "password": "5678"};
+  var jsonCONNECT = {"user": user, "password": password};
   socket.emit('CONNECT', jsonCONNECT);
 }
 
@@ -54,6 +55,14 @@ void publish(String deviceID, String topic, String message) {
 
 void newRuleSocket(String deviceID, String topic, String ruleID, String fact,
     String operator, String value, String message) {
-  var jsonPUBLILSH = {"ruleID": ruleID, "fact": fact, "operator": operator};
-  socket.emit('PUBLISH', jsonPUBLILSH);
+  var jsonREGRULE = {
+    "ruleID": ruleID,
+    "fact": fact,
+    "operator": operator,
+    "value": value,
+    "deviceID": deviceID,
+    "topic": topic,
+    "message": message
+  };
+  socket.emit('REG-RULE', jsonREGRULE);
 }
