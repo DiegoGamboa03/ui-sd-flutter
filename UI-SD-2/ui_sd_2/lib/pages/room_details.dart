@@ -42,8 +42,10 @@ class _RoomDetailsState extends State<RoomDetails> {
           }
         }
         if (!contains) {
-          widget.roomData.devices.add(
-              Device(id: id, status: status, type: type, switchTopic: topic));
+          setState(() {
+            widget.roomData.devices.add(
+                Device(id: id, status: status, type: type, switchTopic: topic));
+          });
         }
       }
     }));
