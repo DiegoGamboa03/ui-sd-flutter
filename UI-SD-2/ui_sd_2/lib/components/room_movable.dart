@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ui_sd_2/classes/room_data.dart';
 import 'package:ui_sd_2/components/room_info.dart';
+import 'package:ui_sd_2/helpers/socket_io_service.dart';
 import 'package:ui_sd_2/pages/room_details.dart';
+
+import '../classes/device.dart';
 
 // ignore: must_be_immutable
 class RoomMovable extends StatefulWidget {
@@ -22,6 +25,11 @@ class RoomMovable extends StatefulWidget {
 
 class _RoomState extends State<RoomMovable> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenheight = MediaQuery.of(context).size.height;
 
@@ -39,12 +47,23 @@ class _RoomState extends State<RoomMovable> {
                 color: Colors.grey,
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              RoomDetails(roomData: widget.roomData)),
-                    );
+                    var jsonCHECKROOM = {'roomID': widget.roomData.roomID};
+                    socket.emit('CHECK-ROOM-DEVICES', jsonCHECKROOM);
+                    socket.on('CHECK-ROOM-DEVICESACK', ((data) async {
+                      var list = data['checkDevices']
+                          .map((element) {
+                            return Device.fromJson(element);
+                          })
+                          .toList()
+                          .cast<Device>();
+                      widget.roomData.devices = list;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                RoomDetails(roomData: widget.roomData)),
+                      );
+                    }));
                   },
                   child: Container(
                     color: Colors.transparent,

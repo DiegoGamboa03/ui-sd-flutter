@@ -104,7 +104,8 @@ class _RoomListItemState extends State<RoomListItem> {
                             } else {
                               message = 'on';
                             }
-                            //publish(widget.device.id, topic, message);
+                            publish(widget.device.id, widget.device.switchTopic,
+                                message);
                           },
                           elevation: 2.0,
                           fillColor: Colors.white,

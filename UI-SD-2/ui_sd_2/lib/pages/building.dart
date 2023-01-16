@@ -65,6 +65,7 @@ class _BuildingState extends State<Building> {
         floors.add(Floor(id: floorID, img: 'a', movableItems: []));
       }
     }));
+
     return Scaffold(
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton:
@@ -101,13 +102,6 @@ class _BuildingState extends State<Building> {
                       )),
                     );
                   }));
-
-              //Aqui tiene que haber una conexion con sockets para que añadamos un
-              /*floors[i].movableItems.add(RoomMovable(
-                  xPosition: 0,
-                  yPosition: 0,
-                  roomInfo: const RoomInfo(),
-                  roomData: RoomData(devices: [])));*/
             });
           },
         ),
@@ -138,15 +132,6 @@ class _BuildingState extends State<Building> {
                     )),
                   );
                 });
-            /*
-            setState(() {
-              floors.add(Floor(
-                id: 'Piso x',
-                img:
-                    'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-                movableItems: [],
-              ));
-            });*/
           },
         )
       ]),

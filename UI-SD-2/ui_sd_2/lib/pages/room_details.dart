@@ -18,6 +18,7 @@ class _RoomDetailsState extends State<RoomDetails> {
   late TextEditingController _controllerDeviceType;
   List<String> devicesType = ['bulb', 'ac', 'door', 'sensor'];
   late String selectedItem;
+
   @override
   void initState() {
     _controllerDeviceType = TextEditingController();
@@ -27,6 +28,26 @@ class _RoomDetailsState extends State<RoomDetails> {
 
   @override
   Widget build(BuildContext context) {
+    socket.on('UPDATEDEVICE', ((data) async {
+      String roomID = data['room'];
+      String id = data['deviceID'];
+      String type = data['type'];
+      String status = data['status'];
+      String topic = data['switchTopic'];
+      if (roomID == widget.roomData.roomID) {
+        bool contains = false;
+        for (int i = 0; i < widget.roomData.devices.length; i++) {
+          if (widget.roomData.devices[i].id == id) {
+            contains = true;
+          }
+        }
+        if (!contains) {
+          widget.roomData.devices.add(
+              Device(id: id, status: status, type: type, switchTopic: topic));
+        }
+      }
+    }));
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
@@ -57,13 +78,8 @@ class _RoomDetailsState extends State<RoomDetails> {
                                 null,
                                 widget.roomData.roomID,
                                 topic);
-                            setState(() {
-                              widget.roomData.devices.add(Device(
-                                  id: _controllerDeviceID.text,
-                                  status: 'off',
-                                  type: _controllerDeviceType.text,
-                                  switchTopic: topic));
-                            });
+
+                            setState(() {});
                           }),
                           child: const Text('Siguiente'))
                     ],
