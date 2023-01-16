@@ -66,3 +66,11 @@ void newRuleSocket(String deviceID, String topic, String ruleID, String fact,
   };
   socket.emit('REG-RULE', jsonREGRULE);
 }
+
+void subscribe(String deviceID, String topic) {
+  var jsonSUBSCRIBE = {
+    "deviceID": deviceID,
+    "topic": topic,
+  };
+  socket.emit('SUBSCRIBE', jsonSUBSCRIBE);
+}

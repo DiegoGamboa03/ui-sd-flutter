@@ -162,6 +162,32 @@ class _RoomListItemState extends State<RoomListItem> {
                   );
                 });
           },
+          onDoubleTap: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return Dialog(
+                    child: Center(
+                        child: Column(
+                      children: [
+                        TextField(
+                          decoration: const InputDecoration.collapsed(
+                              hintText: 'Topic'),
+                          controller: _controllerTopic,
+                        ),
+                        TextButton(
+                            onPressed: (() {
+                              subscribe(
+                                widget.device.id,
+                                _controllerTopic.text,
+                              );
+                            }),
+                            child: const Text('Siguiente'))
+                      ],
+                    )),
+                  );
+                });
+          },
           child: Container(
               color: Colors.transparent,
               height: height * 0.1,
@@ -172,6 +198,10 @@ class _RoomListItemState extends State<RoomListItem> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: icon,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(widget.device.id),
                   ),
                   widget.device.type == 'ac'
                       ? Column(
