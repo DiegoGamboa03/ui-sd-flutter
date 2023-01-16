@@ -56,7 +56,10 @@ class _RoomState extends State<RoomMovable> {
                           })
                           .toList()
                           .cast<Device>();
-                      widget.roomData.devices = list;
+                      if (list.length > 0) {
+                        widget.roomData.devices = list;
+                      }
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(
