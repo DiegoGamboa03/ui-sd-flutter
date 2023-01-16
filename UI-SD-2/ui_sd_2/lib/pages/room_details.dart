@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_sd_2/classes/device.dart';
+import 'package:ui_sd_2/classes/updateDevice.dart';
 import 'package:ui_sd_2/components/room_list_item.dart';
 import '../classes/room_data.dart';
 import '../helpers/socket_io_service.dart';

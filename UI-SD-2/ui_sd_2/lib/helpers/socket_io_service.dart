@@ -51,3 +51,9 @@ void publish(String deviceID, String topic, String message) {
   var jsonPUBLILSH = {"deviceID": deviceID, "topic": topic, "message": message};
   socket.emit('PUBLISH', jsonPUBLILSH);
 }
+
+void newRuleSocket(String deviceID, String topic, String ruleID, String fact,
+    String operator, String value, String message) {
+  var jsonPUBLILSH = {"ruleID": ruleID, "fact": fact, "operator": operator};
+  socket.emit('PUBLISH', jsonPUBLILSH);
+}

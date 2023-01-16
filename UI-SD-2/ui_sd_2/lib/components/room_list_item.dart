@@ -20,10 +20,16 @@ class RoomListItem extends StatefulWidget {
 class _RoomListItemState extends State<RoomListItem> {
   FaIcon icon = const FaIcon(FontAwesomeIcons.doorOpen);
   late String message;
+  late TextEditingController _controllerTopic;
+  late TextEditingController _controllerRuleID;
+  late TextEditingController _controllerFact;
+  late TextEditingController _controllerOperator;
+  late TextEditingController _controllerValue;
+  late TextEditingController _controllerMessage;
   @override
   void initState() {
     if (widget.device.type == 'bulb') {
-      if (widget.device.status == 'on') {
+      if (widget.device.status == 'state:on') {
         icon = const FaIcon(FontAwesomeIcons.lightbulb);
       } else {
         icon = const FaIcon(FontAwesomeIcons.solidLightbulb);
@@ -31,13 +37,13 @@ class _RoomListItemState extends State<RoomListItem> {
     } else if (widget.device.type == 'sensor') {
       icon = const FaIcon(FontAwesomeIcons.circle);
     } else if (widget.device.type == 'door') {
-      if (widget.device.status == 'open') {
+      if (widget.device.status == 'state:on') {
         icon = const FaIcon(FontAwesomeIcons.doorOpen);
       } else {
         icon = const FaIcon(FontAwesomeIcons.doorClosed);
       }
     } else if (widget.device.type == 'ac') {
-      if (widget.device.status == 'on') {
+      if (widget.device.status == 'state:on') {
         icon = const FaIcon(FontAwesomeIcons.fan);
       } else {
         icon = const FaIcon(FontAwesomeIcons.x);
@@ -52,6 +58,41 @@ class _RoomListItemState extends State<RoomListItem> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
+    socket.on('PUBLISH', ((data) async {
+      var length = data.length;
+      for (int i = 0; i < length; i++) {
+        String id = data[i]['Device'];
+        String message = data[i]['Message'];
+        if (widget.device.id == id) {
+          widget.device.status = message;
+        }
+      }
+      setState(() {
+        if (widget.device.type == 'bulb') {
+          if (widget.device.status == 'state:on') {
+            icon = const FaIcon(FontAwesomeIcons.lightbulb);
+          } else {
+            icon = const FaIcon(FontAwesomeIcons.solidLightbulb);
+          }
+        } else if (widget.device.type == 'sensor') {
+          icon = const FaIcon(FontAwesomeIcons.circle);
+        } else if (widget.device.type == 'door') {
+          if (widget.device.status == 'state:on') {
+            icon = const FaIcon(FontAwesomeIcons.doorOpen);
+          } else {
+            icon = const FaIcon(FontAwesomeIcons.doorClosed);
+          }
+        } else if (widget.device.type == 'ac') {
+          if (widget.device.status == 'state:on') {
+            icon = const FaIcon(FontAwesomeIcons.fan);
+          } else {
+            icon = const FaIcon(FontAwesomeIcons.x);
+          }
+        }
+        message = widget.device.status;
+      });
+    }));
+
     return Container(
       //Contenedor externo para margenes con otros elementos
       margin: EdgeInsets.only(
@@ -60,7 +101,49 @@ class _RoomListItemState extends State<RoomListItem> {
         //Color
         color: Colors.lightGreen,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return Dialog(
+                    child: Center(
+                        child: Column(
+                      children: [
+                        TextField(
+                          controller: _controllerTopic,
+                        ),
+                        TextField(
+                          controller: _controllerRuleID,
+                        ),
+                        TextField(
+                          controller: _controllerFact,
+                        ),
+                        TextField(
+                          controller: _controllerOperator,
+                        ),
+                        TextField(
+                          controller: _controllerValue,
+                        ),
+                        TextField(
+                          controller: _controllerMessage,
+                        ),
+                        TextButton(
+                            onPressed: (() {
+                              newRuleSocket(
+                                  widget.device.id,
+                                  _controllerTopic.text,
+                                  _controllerRuleID.text,
+                                  _controllerFact.text,
+                                  _controllerOperator.text,
+                                  _controllerValue.text,
+                                  _controllerMessage.text);
+                            }),
+                            child: const Text('Siguiente'))
+                      ],
+                    )),
+                  );
+                });
+          },
           child: Container(
               color: Colors.transparent,
               height: height * 0.1,
@@ -100,12 +183,11 @@ class _RoomListItemState extends State<RoomListItem> {
                           //Si no es ac
                           onPressed: () {
                             if (message == 'on') {
-                              message = 'off';
+                              message = 'state:off';
                             } else {
-                              message = 'on';
+                              message = 'state:on';
                             }
-                            publish(widget.device.id, widget.device.switchTopic,
-                                message);
+                            publish('APP', widget.device.switchTopic, message);
                           },
                           elevation: 2.0,
                           fillColor: Colors.white,
