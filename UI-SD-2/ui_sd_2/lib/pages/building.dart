@@ -168,22 +168,23 @@ class _BuildingState extends State<Building> {
                   .map((floor) => Stack(
                         children: [
                           Center(
-                            child: Column(
-                              children: [
-                                Text(floor.id),
-                                Center(
-                                    child: Image.network(
-                                  floor.img,
-                                  fit: BoxFit.cover,
-                                  height: height,
-                                )),
-                              ],
-                            ),
+                            child: Center(
+                                child: Image.network(
+                              floor.img,
+                              fit: BoxFit.cover,
+                              height: height,
+                            )),
                           ),
                           Stack(
                             children:
                                 floors[floors.indexOf(floor)].movableItems,
-                          )
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Align(
+                                alignment: Alignment.topCenter,
+                                child: Text(floor.id)),
+                          ),
                         ],
                       ))
                   .toList(),

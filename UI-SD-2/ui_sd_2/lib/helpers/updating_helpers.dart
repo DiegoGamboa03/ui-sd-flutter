@@ -36,7 +36,7 @@ List<Floor> initFloors(JsonConnack jsonConnack) {
     floors.add(Floor(
         id: jsonConnack.jsonFloors[i].floorID,
         img:
-            'https://drive.google.com/file/d/1l7YDSPQjnCje5bYv83OxSGk7RsdzwM8K/view?usp=share_link',
+            'https://drive.google.com/uc?export=view&id=1l7YDSPQjnCje5bYv83OxSGk7RsdzwM8K',
         movableItems: movableItems));
   }
   return floors;
