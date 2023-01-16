@@ -36,7 +36,7 @@ List<Floor> initFloors(JsonConnack jsonConnack) {
     floors.add(Floor(
         id: jsonConnack.jsonFloors[i].floorID,
         img:
-            'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.nature.com%2Fcollections%2Fadajhgjece&psig=AOvVaw2HSg9exZixhwF6_x43JexP&ust=1673824369052000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCMidmeqXyPwCFQAAAAAdAAAAABAD',
+            'https://drive.google.com/file/d/1l7YDSPQjnCje5bYv83OxSGk7RsdzwM8K/view?usp=share_link',
         movableItems: movableItems));
   }
   return floors;

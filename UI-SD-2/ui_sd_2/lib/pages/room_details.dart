@@ -64,9 +64,13 @@ class _RoomDetailsState extends State<RoomDetails> {
                       child: Column(
                     children: [
                       TextField(
+                        decoration: const InputDecoration.collapsed(
+                            hintText: 'Device ID'),
                         controller: _controllerDeviceID,
                       ),
                       TextField(
+                        decoration: const InputDecoration.collapsed(
+                            hintText: 'Device type (door, ac, bulb, sensor)'),
                         controller: _controllerDeviceType,
                       ),
                       TextButton(

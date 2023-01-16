@@ -23,11 +23,13 @@ class _BuildingState extends State<Building> {
   List<Floor> floors = [];
   late TextEditingController _controllerRoomID;
   late TextEditingController _controllerFloorID;
+  late String lastRoomID;
   final CarouselController controller = CarouselController();
 
   @override
   void initState() {
     setState(() {
+      lastRoomID = '';
       _controllerRoomID = TextEditingController();
       _controllerFloorID = TextEditingController();
       floors = initFloors(widget.jsonConnack);
@@ -37,19 +39,22 @@ class _BuildingState extends State<Building> {
 
   @override
   Widget build(BuildContext context) {
-    socket.on('UPDATEROOM', (data) async {
+    socket.once('UPDATEROOM', (data) async {
       for (var floor in floors) {
         var floorID = data['floorID'];
         var roomID = data['roomID'];
         if (floor.id == floorID) {
-          floor.movableItems.add(RoomMovable(
-              xPosition: 0,
-              yPosition: 0,
-              roomInfo: RoomInfo(
-                roomID: roomID.toString(),
-              ),
-              roomData:
-                  RoomData(floorID: floorID, roomID: roomID, devices: [])));
+          if (lastRoomID != roomID) {
+            floor.movableItems.add(RoomMovable(
+                xPosition: 0,
+                yPosition: 0,
+                roomInfo: RoomInfo(
+                  roomID: roomID.toString(),
+                ),
+                roomData:
+                    RoomData(floorID: floorID, roomID: roomID, devices: [])));
+            lastRoomID = roomID;
+          }
         }
       }
     });
@@ -85,15 +90,19 @@ class _BuildingState extends State<Building> {
                           child: Column(
                         children: [
                           TextField(
+                            decoration: const InputDecoration.collapsed(
+                                hintText: 'Room ID'),
                             controller: _controllerRoomID,
                           ),
-                          TextField(
+                          /*TextField(
+                            decoration: const InputDecoration.collapsed(
+                                hintText: 'Floor ID'),
                             controller: _controllerFloorID,
-                          ),
+                          ),*/
                           TextButton(
                               onPressed: (() {
                                 newRoomSocket(_controllerRoomID.text,
-                                    _controllerFloorID.text, 0.0, 0.0);
+                                    floors[i].id, 0.0, 0.0);
                                 socket.on('REG-ROOMACK', (data) async {
                                   if (data['returnCode'] == 0) {
                                   } else {}
@@ -119,6 +128,8 @@ class _BuildingState extends State<Building> {
                         child: Column(
                       children: [
                         TextField(
+                          decoration: const InputDecoration.collapsed(
+                              hintText: 'Floor ID'),
                           controller: _controllerFloorID,
                         ),
                         TextButton(
@@ -157,11 +168,18 @@ class _BuildingState extends State<Building> {
                   .map((floor) => Stack(
                         children: [
                           Center(
-                              child: Image.network(
-                            floor.img,
-                            fit: BoxFit.cover,
-                            height: height,
-                          )),
+                            child: Column(
+                              children: [
+                                Text(floor.id),
+                                Center(
+                                    child: Image.network(
+                                  floor.img,
+                                  fit: BoxFit.cover,
+                                  height: height,
+                                )),
+                              ],
+                            ),
+                          ),
                           Stack(
                             children:
                                 floors[floors.indexOf(floor)].movableItems,
